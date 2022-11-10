@@ -7,6 +7,7 @@ from starkware.starknet.compiler.compile import get_selector_from_name
 
 from nile_upgrades import common
 
+
 @click.command()
 @click.argument("signer", type=str)
 @click.argument("contract_name", type=str)
@@ -31,10 +32,12 @@ def deploy_proxy(signer, contract_name, initializer_args, initializer, alias=Non
 
     logging.debug(f"Deploying upgradeable proxy...")
     selector = get_selector_from_name(initializer)
-    addr, abi = nre.deploy("Proxy", arguments=[impl_class_hash, selector, len(initializer_args), *initializer_args], alias=alias, overriding_path=_get_proxy_artifact_path(), abi=common.get_contract_abi(contract_name))
+    addr, abi = nre.deploy("Proxy", arguments=[impl_class_hash, selector, len(
+        initializer_args), *initializer_args], alias=alias, overriding_path=_get_proxy_artifact_path(), abi=common.get_contract_abi(contract_name))
     logging.debug(f"Proxy deployed to address {addr} using ABI {abi}")
 
     return addr
+
 
 def _get_proxy_artifact_path():
     package = os.path.dirname(os.path.realpath(__file__))

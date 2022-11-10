@@ -1,11 +1,13 @@
 from nile.core.account import Account
 from nile.utils import hex_address
 
+
 def run(nre):
     signer = "PKEY1"
     account = Account(signer, nre.network)
 
-    proxy = nre.deploy_proxy([signer, "contract", hex_address(account.address)])
+    proxy = nre.deploy_proxy(
+        [signer, "contract", hex_address(account.address)])
 
     account.send(proxy, "increase_balance", calldata=['1'], max_fee=None)
     print(f"balance from v1: {nre.call(proxy, 'get_balance')}")

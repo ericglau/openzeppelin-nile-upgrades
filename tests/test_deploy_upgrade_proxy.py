@@ -81,8 +81,10 @@ def test_deploy_upgrade_proxy():
     result = CliRunner().invoke(cli, ["compile"])
     assert result.exit_code == 0
 
-    assert {f.name for f in abi_dir.glob("*.json")} == {"contract.json", "contract_v2.json"}
-    assert {f.name for f in build_dir.glob("*.json")} == {"contract.json", "contract_v2.json"}
+    assert {f.name for f in abi_dir.glob(
+        "*.json")} == {"contract.json", "contract_v2.json"}
+    assert {f.name for f in build_dir.glob(
+        "*.json")} == {"contract.json", "contract_v2.json"}
 
     # Start node
     p = spawn_gateway()
@@ -108,7 +110,8 @@ def spawn_gateway():
 
     # Spawn process to start StarkNet local network with specified port
     # i.e. $ nile node --host localhost --port 5000
-    p = create_process(target=start_node, args=(seconds, [ "--host", "localhost", "--port", "5000" ]))
+    p = create_process(target=start_node, args=(
+        seconds, ["--host", "localhost", "--port", "5000"]))
     p.start()
 
     # Check node heartbeat and assert that it is running
