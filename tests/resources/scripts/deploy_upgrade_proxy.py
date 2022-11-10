@@ -15,4 +15,4 @@ def run(nre):
     print(f"balance from v2: {nre.call(proxy, 'get_balance')}")
 
     account.send(proxy, "reset_balance", calldata=[], max_fee=None)
-    print(f"balance after reset from v2: {nre.call(proxy, 'get_balance')}")
+    print(f"balance after reset from TESTING v2: {nre.call(proxy, 'get_balance')}")
