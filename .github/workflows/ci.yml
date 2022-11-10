@@ -50,4 +50,6 @@ jobs:
 
       - run: poetry install --no-interaction
 
+      - run: poetry run pip install -U setuptools
+
       - run: poetry run pytest tests
