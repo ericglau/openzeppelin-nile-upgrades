@@ -3,17 +3,18 @@ import os
 
 from starkware.starknet.compiler.compile import get_selector_from_name
 
-from nile.nre import NileRuntimeEnvironment
 from nile.utils import hex_address
 
 from nile_upgrades import common
 
 
 def deploy_proxy(
-    signer, contract_name, initializer_args, initializer='initializer', alias=None, max_fee=None, standalone_mode=None
+    nre, signer, contract_name, initializer_args, initializer='initializer', alias=None, max_fee=None, standalone_mode=None
 ):
     """
     Deploy an upgradeable proxy for an implementation contract.
+
+    `nre` - the `NileRuntimeEnvironment` object.
 
     `signer` - private key alias for the Account to use.
 
@@ -27,8 +28,6 @@ def deploy_proxy(
 
     `max_fee` - Maximum fee for the transaction. Defaults to `None`.
     """
-
-    nre = NileRuntimeEnvironment()
 
     impl_class_hash = common.declare_impl(nre.network, contract_name, signer, max_fee)
 

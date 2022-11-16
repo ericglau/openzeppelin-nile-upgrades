@@ -4,6 +4,8 @@ from unittest.mock import patch
 
 import pytest
 
+from nile.nre import NileRuntimeEnvironment
+
 from nile_upgrades.upgrade_proxy import _get_tx_hash, _load_deployment, upgrade_proxy
 
 
@@ -33,7 +35,7 @@ def test_upgrade_proxy(
 ):
     logging.getLogger().setLevel(logging.INFO)
 
-    upgrade_proxy(SIGNER, PROXY_ADDR, CONTRACT)
+    upgrade_proxy(NileRuntimeEnvironment(), SIGNER, PROXY_ADDR, CONTRACT)
 
     # check logs
     assert f"Upgrading proxy {PROXY_ADDR} to class hash {HEX_CLASS_HASH}" in caplog.text

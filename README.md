@@ -24,6 +24,8 @@ def deploy_proxy(
 )
 ```
 
+- `nre` - the `NileRuntimeEnvironment` object.
+
 - `signer` - private key alias for the Account to use.
 
 - `contract_name` - the name of the implementation contract.
@@ -48,6 +50,8 @@ Upgrade a proxy to a different implementation contract.
 ```
 def upgrade_proxy(signer, proxy_address_or_alias, contract_name, max_fee=None)
 ```
+
+- `nre` - the `NileRuntimeEnvironment` object.
 
 - `signer` - private key alias for the Account to use.
 

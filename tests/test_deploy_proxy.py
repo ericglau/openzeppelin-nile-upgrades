@@ -2,6 +2,8 @@
 import logging
 from unittest.mock import patch
 
+from nile.nre import NileRuntimeEnvironment
+
 from nile_upgrades.deploy_proxy import deploy_proxy
 
 
@@ -26,7 +28,7 @@ def test_deploy_proxy(
 ):
     logging.getLogger().setLevel(logging.DEBUG)
 
-    result = deploy_proxy(SIGNER, CONTRACT, [ARG1, ARG2]);
+    result = deploy_proxy(NileRuntimeEnvironment(), SIGNER, CONTRACT, [ARG1, ARG2]);
     assert result == PROXY_ADDR_INT
 
     # TODO check called once with
