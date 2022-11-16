@@ -29,5 +29,7 @@ def test_deploy_proxy(
     result = deploy_proxy(SIGNER, CONTRACT, [ARG1, ARG2]);
     assert result == PROXY_ADDR_INT
 
+    # TODO check called once with
+
     # check logs
     assert f"Proxy deployed to address {PROXY_ADDR} using ABI {PROXY_ABI}" in caplog.text
