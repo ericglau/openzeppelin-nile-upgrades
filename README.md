@@ -20,7 +20,7 @@ Deploy an upgradeable proxy for an implementation contract.
 
 ```
 def deploy_proxy(
-    signer, contract_name, initializer_args, initializer='initializer', alias=None, max_fee=None
+    nre, signer, contract_name, initializer_args, initializer='initializer', alias=None, max_fee=None
 )
 ```
 
@@ -48,7 +48,9 @@ proxy_address = nre.deploy_proxy("PKEY1", "my_contract_v1", ["arg for initialize
 Upgrade a proxy to a different implementation contract.
 
 ```
-def upgrade_proxy(signer, proxy_address_or_alias, contract_name, max_fee=None)
+def upgrade_proxy(
+    nre, signer, proxy_address_or_alias, contract_name, max_fee=None
+)
 ```
 
 - `nre` - the `NileRuntimeEnvironment` object.
