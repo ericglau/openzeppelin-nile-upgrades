@@ -2,7 +2,7 @@
 import logging
 from unittest.mock import patch
 
-from nile_upgrades.common import declare_impl
+from nile_upgrades.common import declare_impl, get_contract_abi
 
 
 NETWORK = "localhost"
@@ -54,3 +54,8 @@ def test_declare_impl(
 
     # check logs
     assert f"Implementation declared with hash {PADDED_HASH}" in caplog.text
+
+
+def test_get_contract_abi():
+    result = get_contract_abi("mycontract")
+    assert result == f"artifacts/abis/mycontract.json"
