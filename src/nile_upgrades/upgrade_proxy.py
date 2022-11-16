@@ -26,7 +26,7 @@ def upgrade_proxy(signer, proxy_address_or_alias, contract_name, max_fee=None, s
 
     proxy_address = _load_deployment(proxy_address_or_alias, nre.network)
 
-    impl_class_hash = common.declare_impl(nre, contract_name, signer, max_fee)
+    impl_class_hash = common.declare_impl(nre.network, contract_name, signer, max_fee)
 
     logging.info(f"⏭️  Upgrading proxy {hex_address(proxy_address)} to class hash {hex_class_hash(impl_class_hash)}")
     account = Account(signer, nre.network)

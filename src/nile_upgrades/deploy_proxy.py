@@ -30,7 +30,7 @@ def deploy_proxy(
 
     nre = NileRuntimeEnvironment()
 
-    impl_class_hash = common.declare_impl(nre, contract_name, signer, max_fee)
+    impl_class_hash = common.declare_impl(nre.network, contract_name, signer, max_fee)
 
     logging.debug(f"Deploying upgradeable proxy...")
     selector = get_selector_from_name(initializer)
