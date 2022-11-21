@@ -6,10 +6,11 @@ from nile.core.account import Account
 from nile.utils import normalize_number, hex_class_hash, hex_address
 
 from nile_upgrades.common import declare_impl, get_contract_abi
+from nile_upgrades.multicall import send_multicall
 
 
 async def upgrade_proxy(
-    nre, signer, proxy_address_or_alias, contract_name, max_fee=None, standalone_mode=None
+    nre, signer, proxy_address_or_alias, contract_name, call=None, args=None, max_fee=None, standalone_mode=None
 ):
     """
     Upgrade a proxy to a different implementation contract.
@@ -31,9 +32,11 @@ async def upgrade_proxy(
 
     logging.info(f"⏭️  Upgrading proxy {hex_address(proxy_address)} to class hash {hex_class_hash(impl_class_hash)}")
     account = await Account(signer, nre.network)
-    upgrade_result = await account.send(
-        proxy_address, "upgrade", calldata=[impl_class_hash], max_fee=max_fee
-    )
+
+    calls = [[proxy_address, "upgrade", [impl_class_hash]]]
+    if call is not None:
+        calls.append([proxy_address, call, [] if args is None else args])
+    upgrade_result = await send_multicall(account, calls, max_fee)
 
     tx_hash = _get_tx_hash(upgrade_result)
     logging.info(f"🧾 Upgrade transaction hash: {tx_hash}")
