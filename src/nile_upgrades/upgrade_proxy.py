@@ -6,7 +6,6 @@ from nile.core.account import Account
 from nile.utils import normalize_number, hex_class_hash, hex_address
 
 from nile_upgrades.common import declare_impl, get_contract_abi
-from nile_upgrades.multicall import send_multicall
 
 
 async def upgrade_proxy(
@@ -36,7 +35,7 @@ async def upgrade_proxy(
     calls = [[proxy_address, "upgrade", [impl_class_hash]]]
     if call is not None:
         calls.append([proxy_address, call, [] if args is None else args])
-    upgrade_result = await send_multicall(account, calls, max_fee)
+    upgrade_result = await account.send_multicall(calls, max_fee)
 
     tx_hash = _get_tx_hash(upgrade_result)
     logging.info(f"🧾 Upgrade transaction hash: {tx_hash}")
