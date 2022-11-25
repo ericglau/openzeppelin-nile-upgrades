@@ -33,7 +33,7 @@ MAX_FEE = 100
 async def test_deploy_proxy(
     mock_get_proxy_artifact_path, mock_get_selector, mock_declare_impl, caplog
 ):
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(print)
 
     with patch("nile.nre.NileRuntimeEnvironment.deploy", new=AsyncMock(return_value=(PROXY_ADDR_INT, IMPL_ABI))) as mock_deploy:
         result = await deploy_proxy(NileRuntimeEnvironment(), SIGNER, CONTRACT, ARGS)
@@ -49,7 +49,7 @@ async def test_deploy_proxy(
 async def test_deploy_proxy_all_opts(
     mock_get_proxy_artifact_path, mock_get_selector, mock_declare_impl, caplog
 ):
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(print)
 
     with patch("nile.nre.NileRuntimeEnvironment.deploy", new=AsyncMock(return_value=(PROXY_ADDR_INT, IMPL_ABI))) as mock_deploy:
         result = await deploy_proxy(NileRuntimeEnvironment(), SIGNER, CONTRACT, ARGS, CUSTOM_INIT, ALIAS, MAX_FEE)

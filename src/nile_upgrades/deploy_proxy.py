@@ -3,6 +3,8 @@ import os
 
 from starkware.starknet.compiler.compile import get_selector_from_name
 
+from nile.core.account import Account
+from nile.common import UNIVERSAL_DEPLOYER_ADDRESS, normalize_number
 from nile.utils import hex_address
 
 from nile_upgrades.common import declare_impl, get_contract_abi
@@ -31,16 +33,46 @@ async def deploy_proxy(
 
     impl_class_hash = await declare_impl(nre.network, contract_name, signer, max_fee)
 
-    logging.debug(f"Deploying upgradeable proxy...")
+    print(f"Deploying upgradeable proxy...")
     selector = get_selector_from_name(initializer)
-    addr, abi = await nre.deploy(
-        "Proxy",
-        arguments=[impl_class_hash, selector, len(initializer_args), *initializer_args],
+    account = await Account(signer, nre.network)
+
+    print(f"Deploying actual proxy...")
+
+    addr, abi = await account.deploy_contract(
+        "Test",
+        salt=None,
+        unique=False,
+        calldata=[],
         alias=alias,
+        deployer_address=None,
         overriding_path=_get_proxy_artifact_path(),
         abi=get_contract_abi(contract_name),
+        watch_mode="track"
     )
-    logging.debug(f"Proxy deployed to address {hex_address(addr)} using ABI {abi}")
+
+    # addr, abi = await account.deploy_contract(
+    #     "Proxy",
+    #     salt=None,
+    #     unique=False,
+    #     calldata=[impl_class_hash, selector, len(initializer_args), *initializer_args],
+    #     alias=alias,
+    #     deployer_address=deployer_address,
+    #     overriding_path=_get_proxy_artifact_path(),
+    #     abi=get_contract_abi(contract_name),
+    #     watch_mode="track"
+    # )
+
+    # addr, abi = await account.send(
+    #     deployer_address,
+    #     method="deployContract",
+    #     "Proxy",
+    #     arguments=[impl_class_hash, selector, len(initializer_args), *initializer_args],
+    #     alias=alias,
+    #     overriding_path=_get_proxy_artifact_path(),
+    #     abi=get_contract_abi(contract_name),
+    # )
+    print(f"Proxy deployed to address {hex_address(addr)} using ABI {abi}")
 
     return addr
 

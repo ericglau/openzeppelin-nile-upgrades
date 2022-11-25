@@ -29,14 +29,14 @@ async def upgrade_proxy(
 
     impl_class_hash = await declare_impl(nre.network, contract_name, signer, max_fee)
 
-    logging.info(f"⏭️  Upgrading proxy {hex_address(proxy_address)} to class hash {hex_class_hash(impl_class_hash)}")
+    print(f"⏭️  Upgrading proxy {hex_address(proxy_address)} to class hash {hex_class_hash(impl_class_hash)}")
     account = await Account(signer, nre.network)
     upgrade_result = await account.send(
-        proxy_address, "upgrade", calldata=[impl_class_hash], max_fee=max_fee
+        proxy_address, "upgrade", calldata=[impl_class_hash], max_fee=max_fee, watch_mode="track"
     )
 
     tx_hash = _get_tx_hash(upgrade_result)
-    logging.info(f"🧾 Upgrade transaction hash: {tx_hash}")
+    print(f"🧾 Upgrade transaction hash: {tx_hash}")
 
     deployments.update_abi(
         proxy_address, get_contract_abi(contract_name), nre.network
